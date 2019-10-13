@@ -42,10 +42,6 @@
 // Select your baud rate here
 #define BAUD 115200
 
-// Select your motor driver here
-#define PololuMC33926
-//#define DFRobotL298PShield
-
 // Define your encoder pins here.
 // Try to use pins that have interrupts
 // Left side encoders pins
