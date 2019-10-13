@@ -9,6 +9,18 @@ ros_arduino_base provide a basic interface two wheel differential mobile base.
 - Off-board, the encoder data is processed to determine the pose of base.  
 - In addition, the standard velocity topic (twist) is converted to left and right velocities.
 
-## Current motor drivers
-- Dual MC33926 Motor Drivers Carrier
-- DFRobot L298P Motor Shield (2A)
+## Current motor driver connections ##
+- leftPWM 8
+- leftDIR 22
+- leftBRK 10
+
+- rightPWM 9
+- rightDIR 23
+- rightBRK 11
+
+## Current Encoder Connections ##
+- leftENCA 2
+- leftENCB 3
+
+- rightENCA 19
+- rightENCB 18
