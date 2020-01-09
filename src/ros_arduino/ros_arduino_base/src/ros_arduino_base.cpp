@@ -47,6 +47,7 @@ ROSArduinoBase::ROSArduinoBase(ros::NodeHandle nh, ros::NodeHandle pnh):
 {
   cmd_diff_vel_pub_ = nh_.advertise<ros_arduino_msgs::CmdDiffVel>("cmd_diff_vel", 5);
   odom_pub_ = nh_.advertise<nav_msgs::Odometry>("odom", 5);
+  diff_vel_pub_ = nh_.advertise<ros_arduino_msgs::CmdDiffVel>("diff_vel", 5);
   encoders_sub_ = nh_.subscribe("encoders", 5, &ROSArduinoBase::encodersCallback, this);
   cmd_vel_sub_ = nh_.subscribe("cmd_vel", 5, &ROSArduinoBase::cmdVelCallback, this);
   update_gains_client_ = nh.serviceClient<ros_arduino_base::UpdateGains>("update_gains");
@@ -129,10 +130,12 @@ void ROSArduinoBase::encodersCallback(const ros_arduino_msgs::Encoders::ConstPtr
   nav_msgs::Odometry odom;
   left_counts_ = encoders_msg->left;
   right_counts_ = encoders_msg->right;
-
+  ros_arduino_msgs::CmdDiffVel diff_vel_msg;
   double dt = encoders_msg->header.stamp.toSec() - encoder_previous_time_.toSec();                  // [seconds]
   double velocity_estimate_left_ = meters_per_counts_ * (left_counts_ - old_left_counts_) / dt;     // [m/s]
   double velocity_estimate_right_ = meters_per_counts_ * (right_counts_ - old_right_counts_) / dt;  // [m/s]
+  diff_vel_msg.left = velocity_estimate_left_;
+  diff_vel_msg.right = velocity_estimate_right_;
   double delta_s = meters_per_counts_ * (((right_counts_ - old_right_counts_)
                                           + (left_counts_ - old_left_counts_)) / 2.0);              // [m]
   double delta_theta = meters_per_counts_ * (((right_counts_ - old_right_counts_)
@@ -179,6 +182,7 @@ void ROSArduinoBase::encodersCallback(const ros_arduino_msgs::Encoders::ConstPtr
   }
 
   odom_pub_.publish(odom);
+  diff_vel_pub_.publish(diff_vel_msg);
 
   // Keep track of previous variables.
   encoder_previous_time_ = encoders_msg->header.stamp;

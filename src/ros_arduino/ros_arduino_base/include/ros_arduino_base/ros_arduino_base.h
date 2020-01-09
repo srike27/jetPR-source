@@ -54,6 +54,7 @@ class ROSArduinoBase
     // Publishers
     ros::Publisher odom_pub_;
     ros::Publisher cmd_diff_vel_pub_;
+    ros::Publisher diff_vel_pub_;
     // Services
     ros::ServiceClient update_gains_client_;
     // Dynamic Reconfigure
