@@ -1,7 +1,7 @@
-Kp_l: 250
-Ki_l: 0
+Kp_l: 700
+Ki_l: 10
 Kd_l: 20
 
-Kp_r: 250
-Ki_r: 0
+Kp_r: 700
+Ki_r: 10
 Kd_r: 20
