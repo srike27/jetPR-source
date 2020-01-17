@@ -7,6 +7,7 @@
 import rospy
 
 from geometry_msgs.msg import Twist
+from std_msgs.msg import UInt16
 
 import sys, select, termios, tty, signal
 
@@ -21,6 +22,7 @@ Moving around:
 y/n : increase/decrease max speeds by 10%
 t/b : increase/decrease only linear speed by 10%
 r/v : increase/decrease only angular speed by 10%
+u/m : tilt camera angle up/down
 anything else : stop
 
 CTRL-C to quit
@@ -43,9 +45,10 @@ speedBindings={
 		'n':(.8,.8),
 		't':(1.2,1),
 		'b':(.8,1),
-		'r':(1,1.2),
-		'v':(1,.8),
+		'r':(1,1.5),
+		'v':(1,.5),
 	      }
+servoBindings={'u':(-1),'m':(1)}
 
 
 
@@ -74,7 +77,7 @@ def getKey():
     return key
 
 speed = 0.1
-turn = 0.1
+turn = 0.3
 
 def vels(speed,turn):
 	return "currently:\tspeed %s\tturn %s " % (speed,turn)
@@ -83,8 +86,10 @@ if __name__=="__main__":
     	settings = termios.tcgetattr(sys.stdin)
 	
 	pub = rospy.Publisher('cmd_vel', Twist)
+	servop = rospy.Publisher('servo',UInt16)
 	rospy.init_node('teleop_twist_keyboard')
-
+	servo = UInt16()
+	servo.data = 90
 	x = 0
 	y = 0
 	th = 0
@@ -107,6 +112,8 @@ if __name__=="__main__":
 				if (status == 14):
 					print msg
 				status = (status + 1) % 15
+			elif key in servoBindings.keys():
+				servo.data += servoBindings[key]
 			else:
 				x = 0
 				y = 0
@@ -123,6 +130,7 @@ if __name__=="__main__":
 			twist.angular.y = 0
 			twist.angular.z = th*turn
 			pub.publish(twist)
+			servop.publish(servo)
 
 	except:
 		print e
@@ -132,7 +140,9 @@ if __name__=="__main__":
 		twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
 		twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
 		pub.publish(twist)
-
+		servoo = UInt16()
+		servoo.data = 90
+		servop.publish(servoo)
     		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
 
 
