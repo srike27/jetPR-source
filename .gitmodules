@@ -1,0 +1,3 @@
+[submodule "src/ros_deep_learning"]
+	path = src/ros_deep_learning
+	url = https://github.com/dusty-nv/ros_deep_learning
