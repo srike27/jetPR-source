@@ -34,6 +34,8 @@
 #include <ros_arduino_base/UpdateGains.h>
 #include <ros_arduino_msgs/Encoders.h>
 #include <ros_arduino_msgs/CmdDiffVel.h>
+#include <Servo.h>
+#include <std_msgs/UInt16.h>
 
 /********************************************************************************************
 /                                                     USER CONFIG                           *
@@ -75,6 +77,9 @@ ControlData;
 Encoder left_encoder(LEFT_ENCODER_A,LEFT_ENCODER_B);
 Encoder right_encoder(RIGHT_ENCODER_A,RIGHT_ENCODER_B);
 
+Servo servo;
+int servo_angle = 0;
+
 // Vehicle characteristics
 float counts_per_rev[1];
 float gear_ratio[1];
@@ -86,7 +91,7 @@ int pwm_range[1];
 int leftpwm = 8, rightpwm = 9;
 int leftdir = 22, rightdir = 23;
 int leftbrk = 10, rightbrk = 11;
-
+int servopin = 7;
 // Gains;
 float pid_gains[3];
 float Kp, Ki, Kd;
@@ -112,6 +117,10 @@ uint32_t last_control_time;   // [milliseconds]
 uint32_t last_status_time;    // [milliseconds]
 
 
+void servo_cb( const std_msgs::UInt16& cmd_msg){
+   servo_angle = cmd_msg.data;
+}
+
 // ROS node
 ros::NodeHandle_<ArduinoHardware, 10, 10, 1024, 1024> nh;
 
@@ -120,6 +129,7 @@ void cmdDiffVelCallback(const ros_arduino_msgs::CmdDiffVel& diff_vel_msg);
 
 // ROS subsribers
 ros::Subscriber<ros_arduino_msgs::CmdDiffVel> sub_diff_vel("cmd_diff_vel", cmdDiffVelCallback);
+ros::Subscriber<std_msgs::UInt16> sub("servo", servo_cb);
 
 // ROS services prototype
 void updateGainsCb(const ros_arduino_base::UpdateGains::Request &req, ros_arduino_base::UpdateGains::Response &res);
@@ -184,8 +194,10 @@ void setup()
   // Pub/Sub
   nh.advertise(pub_encoders);
   nh.subscribe(sub_diff_vel);
-  nh.advertiseService(update_gains_server);
+  nh.subscribe(sub);
   
+  nh.advertiseService(update_gains_server);
+    
   // Wait for ROSserial to connect
   while (!nh.connected()) 
   {
@@ -249,6 +261,7 @@ void setup()
   
   // Initialize the motors
   setupMotors();
+  servo.attach(servopin); //attach it to pin servopin
 } 
 
 
@@ -265,6 +278,7 @@ void loop()
   if ((millis()) - last_control_time >= (1000 / control_rate[0]))
   {
     Control();
+    servo.write(servo_angle); //set servo angle, should be from 0-180
     last_control_time = millis();
   }
 
@@ -276,7 +290,6 @@ void loop()
   }
   nh.spinOnce();
 }
-
 
 void cmdDiffVelCallback( const ros_arduino_msgs::CmdDiffVel& diff_vel_msg) 
 {
