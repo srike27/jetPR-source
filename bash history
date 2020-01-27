@@ -1,0 +1,38 @@
+sudo apt-get update
+sudo apt-get upgrade
+reboot
+sudo apt-get update
+sudo apt-get upgrade
+./install.sh 
+sudo usermod -a -G dialout robot
+reboot
+roscore
+git clone https://github.com/JetsonHacksNano/installROS.git
+cd installROS/
+./installROS.sh 
+./installROS.sh -p ros-melodic-desktop
+./setupCatkinWorkspace.sh
+sudo apt-get install ros-melodic-usb-cam
+cd ..
+rospack list
+sudo apt install ros-melodic-desktop
+rospack list
+roscore
+roslaunch usb_cam usb_cam-test.launch
+sudo apt install ros-melodic-image-view
+roslaunch usb_cam usb_cam-test.launch
+sudo apt-get install ros-melodic-rosserial-arduino 
+git clone https://github.com/srike27/jetPR-source
+arduino
+catkin_make
+cd 
+sudo gedit .bashrc
+exit
+roslaunch ros_arduino_base base_bringup.launch
+roslaunch jetPR_description urdf.launch 
+cd installLibrealsense/
+./buildLibrealsense.sh 
+realsense-viewer 
+cd 
+gedit .bash_history 
+exit
