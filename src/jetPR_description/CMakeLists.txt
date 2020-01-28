@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(jetPR_description)
 
+add_compile_options(-std=c++11)
+
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
@@ -199,3 +201,5 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+add_executable(joint_updater src/joint_update.cpp)
+target_link_libraries(joint_updater ${catkin_LIBRARIES})
