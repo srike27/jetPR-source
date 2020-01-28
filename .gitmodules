@@ -4,3 +4,6 @@
 [submodule "src/ddynamic_reconfigure"]
 	path = src/ddynamic_reconfigure
 	url = https://github.com/pal-robotics/ddynamic_reconfigure
+[submodule "src/realsense-ros"]
+	path = src/realsense-ros
+	url = https://github.com/IntelRealSense/realsense-ros
