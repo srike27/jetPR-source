@@ -7,7 +7,7 @@
 import rospy
 
 from geometry_msgs.msg import Twist
-from std_msgs.msg import UInt16
+from std_msgs.msg import Int16
 
 import sys, select, termios, tty, signal
 
@@ -48,7 +48,7 @@ speedBindings={
 		'r':(1,1.5),
 		'v':(1,.5),
 	      }
-servoBindings={'u':(-1),'m':(1)}
+servoBindings={'u':(1),'m':(-1)}
 
 
 
@@ -86,10 +86,10 @@ if __name__=="__main__":
     	settings = termios.tcgetattr(sys.stdin)
 	
 	pub = rospy.Publisher('cmd_vel', Twist)
-	servop = rospy.Publisher('servo',UInt16)
+	servop = rospy.Publisher('servo',Int16)
 	rospy.init_node('teleop_twist_keyboard')
-	servo = UInt16()
-	servo.data = 90
+	servo = Int16()
+	servo.data = 0
 	x = 0
 	y = 0
 	th = 0
@@ -140,8 +140,8 @@ if __name__=="__main__":
 		twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
 		twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
 		pub.publish(twist)
-		servoo = UInt16()
-		servoo.data = 90
+		servoo = Int16()
+		servoo.data = 0
 		servop.publish(servoo)
     		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
 

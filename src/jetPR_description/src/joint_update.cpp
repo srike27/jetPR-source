@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     state.header.seq = count;
     state.name = {"left","right","camera_base_joint"};
     state.position = {0.0,0.0,0.0};
-    float servo_angle_rad = (::servo_angle*3.1415)/(180.0);
+    float servo_angle_rad = -(::servo_angle*3.1415)/(180.0);
     state.position[2] = servo_angle_rad;
     joint_pub.publish(state);
     ros::spinOnce();

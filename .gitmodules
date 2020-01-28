@@ -1,3 +1,6 @@
 [submodule "src/ros_deep_learning"]
 	path = src/ros_deep_learning
 	url = https://github.com/dusty-nv/ros_deep_learning
+[submodule "src/ddynamic_reconfigure"]
+	path = src/ddynamic_reconfigure
+	url = https://github.com/pal-robotics/ddynamic_reconfigure
