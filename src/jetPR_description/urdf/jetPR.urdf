@@ -29,6 +29,9 @@
     </visual>
   </link>
   
+  <link name="camera_base_link">
+  </link>
+  
   <joint name="left" type="continuous">
     <parent link="base_link"/>
     <child link="left_wheel"/>
@@ -40,6 +43,13 @@
     <parent link="base_link"/>
     <child link="right_wheel"/>
     <origin xyz="0 -0.15 0.05" rpy="0 0 0" />
+    <axis xyz="0.0 1.0 0" />
+  </joint>
+  
+  <joint name="camera_base_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="camera_base_link"/>
+    <origin xyz="0.035 0 0.285" rpy="0 0 0" />
     <axis xyz="0.0 1.0 0" />
   </joint>
   
