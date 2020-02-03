@@ -29,7 +29,7 @@
     </visual>
   </link>
   
-  <link name="camera_base_link">
+  <link name="camera_link">
   </link>
   
   <joint name="left" type="continuous">
@@ -48,7 +48,7 @@
   
   <joint name="camera_base_joint" type="continuous">
     <parent link="base_link"/>
-    <child link="camera_base_link"/>
+    <child link="camera_link"/>
     <origin xyz="0.035 0 0.285" rpy="0 0 0" />
     <axis xyz="0.0 1.0 0" />
   </joint>
