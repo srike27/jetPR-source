@@ -1,0 +1,12 @@
+transform_tolerance: 0.1 #0.3
+obstacle_range: 4.0 #4.0
+raytrace_range: 6.0 #4.5
+footprint: [[0.20,0.20],[0.20,-0.20],[-0.20,-0.20],[-0.20,0.20]]
+robot_radius: 0.3
+inflation_layer:
+   enabled: true
+   inflation_radius: 0.45
+   cost_scaling_factor: 100
+footprint_clearing_enabled: true
+static_map_layer:
+   lethal_cost_threshold: 100
