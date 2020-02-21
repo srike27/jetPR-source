@@ -16,7 +16,7 @@ class image_converter:
     self.image_pub = rospy.Publisher("imagee",Image,queue_size = 10)
 
     self.bridge = CvBridge()
-    self.image_sub = rospy.Subscriber("usb_cam/image_raw",Image,self.callback)
+    self.image_sub = rospy.Subscriber("camera/color/image_raw",Image,self.callback)
 
   def callback(self,data):
     try:
