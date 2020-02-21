@@ -1,0 +1,5 @@
+<launch>
+<include file = "$(find ros_arduino_base)/launch/base_bringup.launch"/>
+<include file = "$(find jetPR_description)/launch/urdf.launch"/>
+<include file = "$(find realsense2_camera)/launch/rs_aligned_depth.launch"/>
+</launch>
