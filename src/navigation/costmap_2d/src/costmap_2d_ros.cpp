@@ -154,8 +154,8 @@ Costmap2DROS::Costmap2DROS(const std::string& name, tf2_ros::Buffer& tf) :
     topic_param = "published_footprint";
   }
 
-  private_nh.param(topic_param, topic, std::string("oriented_footprint"));
-  footprint_pub_ = private_nh.advertise<geometry_msgs::PolygonStamped>("footprint", 1);
+  private_nh.param(topic_param, topic, std::string("footprint"));  // TODO: revert to oriented_footprint in N-turtle
+  footprint_pub_ = private_nh.advertise<geometry_msgs::PolygonStamped>(topic, 1);
 
   setUnpaddedRobotFootprint(makeFootprintFromParams(private_nh));
 
@@ -441,17 +441,22 @@ void Costmap2DROS::mapUpdateLoop(double frequency)
   ros::Rate r(frequency);
   while (nh.ok() && !map_update_thread_shutdown_)
   {
+    #ifdef HAVE_SYS_TIME_H
     struct timeval start, end;
     double start_t, end_t, t_diff;
     gettimeofday(&start, NULL);
-
+    #endif
+    
     updateMap();
 
+    #ifdef HAVE_SYS_TIME_H
     gettimeofday(&end, NULL);
     start_t = start.tv_sec + double(start.tv_usec) / 1e6;
     end_t = end.tv_sec + double(end.tv_usec) / 1e6;
     t_diff = end_t - start_t;
     ROS_DEBUG("Map update time: %.9f", t_diff);
+    #endif
+    
     if (publish_cycle.toSec() > 0 && layered_costmap_->isInitialized())
     {
       unsigned int x0, y0, xn, yn;
