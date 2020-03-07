@@ -26,7 +26,7 @@ class image_converter:
   def dcbk(self,msg):
     for det in msg.detections:
       for re in det.results:
-        if re.id == 1 and re.score > 0.75 :
+        if re.id == 1 and re.score > 0.50 :
           pt1 = (int(det.bbox.center.x - det.bbox.size_x/2),int(det.bbox.center.y - det.bbox.size_y/2))
           pt2 = (int(det.bbox.center.x + det.bbox.size_x/2),int(det.bbox.center.y + det.bbox.size_y/2))
           self.final_img = cv2.rectangle(self.cv_image, pt1, pt2, color=(0, 255, 0), thickness=3)
