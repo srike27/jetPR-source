@@ -23,7 +23,7 @@ if __name__ == '__main__':
         pose.header.stamp = rospy.Time.now()
         pose.pose.position.x = trans[0]
         pose.pose.position.y = trans[1]
-        pose.pose.position.z = 0.0
+        pose.pose.position.z = trans[2]
         pose.pose.orientation.z = math.tan((rot[2])/2)
         pose.pose.orientation.w = 1
         n = pose.pose.orientation.z**2 + pose.pose.orientation.w**2
