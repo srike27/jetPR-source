@@ -1,19 +1,16 @@
 <launch>
-
    <master auto="start"/>
-   <include file = "$(find ros_arduino_base)/launch/base_bringup.launch"/>
-<include file = "$(find jetPR_description)/launch/urdf.launch"/>
-<include file = "$(find realsense2_camera)/launch/rs_aligned_depth.launch"/>
+   <arg name="rvizconfig" default="$(find jetPR_drivers)/rviz/move_base_config.rviz" />
    <include file="$(find jetPR_drivers)/launch/amcl_default.launch" />
-    <node name="map_server" pkg="map_server" type="map_server" args="/home/robot/map.yaml"/>
+   <node name="map_server" pkg="map_server" type="map_server" args="/home/robot/map.yaml"/>
    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find jetPR_drivers)/config/costmap_common.yaml" command="load" ns="global_costmap" />
-    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
-    <rosparam file="$(find jetPR_drivers)/config/move_base.yaml" command="load" /> 
-    <rosparam file="$(find jetPR_drivers)/config/costmap_common.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find jetPR_drivers)/config/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find jetPR_drivers)/config/global_costmap_params.yaml" command="load" /> 
-    <rosparam file="$(find jetPR_drivers)/config/base_local_planner_params.yaml" command="load" />
- </node>
-
+      <rosparam file="$(find jetPR_drivers)/config/costmap_common.yaml" command="load" ns="global_costmap" />
+      <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+      <rosparam file="$(find jetPR_drivers)/config/move_base.yaml" command="load" /> 
+      <rosparam file="$(find jetPR_drivers)/config/costmap_common.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find jetPR_drivers)/config/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find jetPR_drivers)/config/global_costmap_params.yaml" command="load" /> 
+      <rosparam file="$(find jetPR_drivers)/config/base_local_planner_params.yaml" command="load" />
+   </node>
+   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
 </launch> 
