@@ -17,7 +17,7 @@
     </collision>
     <inertial>
       <mass value="5"/>
-      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      <inertia ixx="0.654" ixy="-0.000192" ixz="0.000351" iyy="1.0023" iyz="-0.043" izz="0.947"/>
     </inertial>
     <collision name='caster_collision'>
       <origin xyz="-0.10 0 0.0055" rpy=" 0 0 0"/>
@@ -83,7 +83,7 @@
     </collision>
     <inertial>
       <mass value="0.5"/>
-      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      <inertia ixx="0.003345" ixy="-2.15e-10" ixz="-7.07e-10" iyy="0.003345" iyz="-2.02e-11" izz="0.0061169"/>
     </inertial>
   </link>
   
@@ -102,7 +102,7 @@
     </collision>
     <inertial>
       <mass value="0.5"/>
-      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      <inertia ixx="0.003345" ixy="-2.15e-10" ixz="-7.07e-10" iyy="0.003345" iyz="-2.02e-11" izz="0.0061169"/>
     </inertial>
   </link>
   
