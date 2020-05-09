@@ -1,0 +1,32 @@
+<launch>
+
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+ 
+  </include>
+
+  <param name="robot_description" command="cat '$(find jetPR_description)/urdf/jetPR.urdf'"/>
+
+    <!-- send fake joint values -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="true"/>
+  </node>
+ 
+  <!-- Combine joint values -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <node args="-param robot_description -urdf -z 0.00 -y -0.0 -model jetPR" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"/>
+
+  <node name="rviz" pkg="rviz" type="rviz" />SS
+  <rosparam file="$(find jetPR_description)/config/control.yaml" command="load"/>
+  <rosparam file="$(find jetPR_description)/config/pid.yaml" command="load"/>
+  <rosparam command="load"
+            file="$(find jetPR_description)/config/joints.yaml"/>
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" args="camera_angle_controller joint_state_controller"/>
+
+
+</launch>
