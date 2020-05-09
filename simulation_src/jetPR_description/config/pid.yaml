@@ -1,0 +1,6 @@
+gazebo_ros_control:   
+  pid_gains:
+    camera_base_joint:
+      p: 1e-6
+      i: 1e-13
+      d: 1e-9
