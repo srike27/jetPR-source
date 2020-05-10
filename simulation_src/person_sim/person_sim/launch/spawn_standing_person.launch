@@ -5,8 +5,8 @@
     -->
     <arg name="sdf_robot_file" value="$(find person_sim)/models/person_standing/model.sdf"/>
     <arg name="robot_name" value="person_standing" />
-    <arg name="x" default="0.0" />
-    <arg name="y" default="0.0" />
+    <arg name="x" default="1.0" />
+    <arg name="y" default="1.0" />
     <arg name="z" default="0.0" />
     <arg name="yaw" default="0.0" />
     

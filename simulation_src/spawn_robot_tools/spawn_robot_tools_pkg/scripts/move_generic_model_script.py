@@ -8,7 +8,6 @@ from gazebo_msgs.msg import ModelState
 import tf
 import math
 import numpy
-from turtle_tf_3d.get_model_gazebo_pose import GazeboModel
 from spawn_robot_tools_pkg.move_generic_model import MoveModel, Coordinates
 
 

@@ -11,7 +11,7 @@ def handle_turtle_pose(pose_msg, robot_name):
                      (pose_msg.orientation.x,pose_msg.orientation.y,pose_msg.orientation.z,pose_msg.orientation.w),
                      rospy.Time.now(),
                      robot_name,
-                     "/map")
+                     "/odom")
 
 def publisher_of_tf():
     
