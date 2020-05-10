@@ -1,10 +1,7 @@
 <launch>
 
 
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="paused" default="false"/>
-    <arg name="use_sim_time" default="true"/>
- 
+  <include file="$(find jetPR_worlds)/launch/house.launch">
   </include>
 
   <param name="robot_description" command="cat '$(find jetPR_description)/urdf/jetPR.urdf'"/>
