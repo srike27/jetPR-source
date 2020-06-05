@@ -8,6 +8,7 @@ import rospy
 import cv2
 from std_msgs.msg import String
 from vision_msgs.msg import Detection2DArray
+from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 import math as m
@@ -16,6 +17,7 @@ class pose_getter:
 
     def __init__(self):
         self.detectsub = rospy.Subscriber("objects",Detection2DArray,self.object_callback)
+        self.measurepub = rospy.Publisher("human_pose_measured",PoseStamped,queue_size=20)
         self.bridge = CvBridge()
         self.hfov = 1.047198
         self.vfov = 3.0 * self.hfov / 4.0
@@ -31,13 +33,19 @@ class pose_getter:
                 #print(px,py)
                 try:
                     d = self.d_image[py][px]
-                    print(d)
                     theta = m.atan(pybar*m.tan(self.vfov/2)/(240))
                     phi = m.atan(pxbar*m.tan(self.hfov/2)/(320))
                     self.x = d/m.sqrt(1/((m.cos(theta))*(m.cos(theta))) + ((m.tan(phi))*(m.tan(phi))))
                     self.y = -(d * m.tan(phi))/m.sqrt(1/((m.cos(theta))*(m.cos(theta))) + (m.tan(phi)*(m.tan(phi))))
                     self.z = (d * m.tan(theta))/m.sqrt(1/((m.cos(theta))*(m.cos(theta))) + (m.tan(phi)*(m.tan(phi))))
-                    print(self.x,self.y,self.z)
+                    p = PoseStamped()
+                    p.header.frame_id = 'camera_link'
+                    p.header.stamp = rospy.Time.now()
+                    p.pose.position.x = self.x
+                    p.pose.position.y = self.y
+                    p.pose.position.z = self.z
+                    p.pose.orientation.w = 1
+                    self.measurepub.publish(p)
                 except:
                     print("depth image not received")
 
@@ -45,13 +53,12 @@ class pose_getter:
     def Depthcallback(self,msg_depth):
         try:
             self.d_image = self.bridge.imgmsg_to_cv2(msg_depth, "32FC1")
-            #print(self.d_image.shape)
         except CvBridgeError as e:
             print(e)
 
 def main(args):
     ic = pose_getter()
-    rospy.init_node('image_converter', anonymous=True)
+    rospy.init_node('human_pose_finder', anonymous=True)
     try:
         rospy.spin()
     except KeyboardInterrupt:
