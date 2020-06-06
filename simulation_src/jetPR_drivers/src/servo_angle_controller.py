@@ -15,7 +15,10 @@ def callback(msg):
     cam_front = 0.035
     cam_height = 0.285
     theta = -m.tan((z-cam_height)/(x-cam_front))
-    ang.data = theta
+    if theta - ang.data < -0.5:
+        ang.data -= 0.01
+    elif theta - ang.data > 0.5:
+        ang.data += 0.01
     angpub.publish(ang)
 
 def listener():
