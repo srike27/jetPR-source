@@ -8,7 +8,8 @@ twpub = rospy.Publisher('cmd_vel',Twist,queue_size=10)
 tw = Twist()
 
 def callback(msg):
-    maxv = 0.5
+    maxv = 1.0
+    close_dist = 1.0
     x = msg.pose.position.x
     y = msg.pose.position.y
     dist = m.sqrt(x**2 + y**2)
@@ -17,14 +18,11 @@ def callback(msg):
         wicr = maxv/r
         wz = 2*wicr
         vx = maxv
-    elif dist < 2 and dist > 0.5:
-        err = (dist - 0.5)
+    elif dist < 2:
+        err = (dist - close_dist)
         vx = maxv*err/1.5
         wicr = vx/r
         wz = 2*wicr
-    else:
-        vx = 0
-        wz = 0
     tw.linear.x = vx
     tw.angular.z = wz
     twpub.publish(tw)
