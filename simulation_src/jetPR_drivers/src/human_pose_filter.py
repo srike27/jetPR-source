@@ -61,11 +61,12 @@ class pose_filter:
                 if self.flags == 1:
                     ux = -self.d*self.wz*self.y*m.sqrt(self.x**2 + self.z**2)/(self.x*m.sqrt(self.x**2+self.y**2)) - self.vx*m.sqrt(self.x**2 + self.z**2)/(m.sqrt((self.x**2+self.y**2)*(self.x**2 + self.z**2)))
                     uy = -self.d*self.wz*m.sqrt(self.x**2 + self.z**2)/(m.sqrt(self.x**2+self.y**2)) + self.vx*self.y*self.x/(self.x*m.sqrt(self.x**2+self.y**2))
-                    self.u = np.array([0.0,0.0,0.0,ux,uy,0.0])
+                    print(ux,uy)
+                    self.u = np.array([ux/self.loophz,uy/self.loophz,0.0,ux,uy,0.0])
             except:
                 print('Person not found')
             if(self.measure_flag == 1):
-                print("measurement rxed")
+                #print("measurement rxed")
                 Xnew = np.matmul(self.A,self.X) + self.u
                 self.P = np.matmul(self.A,np.matmul(self.P,self.A.T)) + self.Q
                 Y = self.Z - self.X
@@ -74,7 +75,7 @@ class pose_filter:
                 self.P = np.matmul((self.I-K),self.P)
                 self.measure_flag = 0
             else:
-                print("extrapolating from previous")
+                #print("extrapolating from previous")
                 Xnew = np.matmul(self.A,self.X) + self.u
                 self.P = np.matmul(self.A,np.matmul(self.P,self.A.T)) + self.Q
                 #Y = self.Z - self.X
