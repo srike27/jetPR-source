@@ -10,6 +10,7 @@ tw = Twist()
 def callback(msg):
     maxv = 1.0
     close_dist = 1.0
+    vx = 0.0
     x = msg.pose.position.x
     y = msg.pose.position.y
     dist = m.sqrt(x**2 + y**2)
