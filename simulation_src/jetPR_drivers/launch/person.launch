@@ -1,0 +1,4 @@
+<launch>
+    <include file="$(find person_sim)/launch/init_standing_person.launch"/>
+    <include file="$(find person_sim)/launch/move_person_standing.launch"/>
+</launch>
