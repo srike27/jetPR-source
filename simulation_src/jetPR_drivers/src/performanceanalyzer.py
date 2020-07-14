@@ -57,7 +57,7 @@ def main(args):
             mconsec = 0
             failure = 0
             for i in ic.darray:
-                sum += i
+                sum += i*i
                 if i > circle:
                     consec = 0
                     failure += 1
