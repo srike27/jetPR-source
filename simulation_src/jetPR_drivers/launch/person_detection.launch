@@ -1,7 +1,7 @@
 <launch>
     <include file="$(find tensorflow_object_detector)/launch/object_detect.launch"/>
-    <node name="human_pose_finder" pkg="jetPR_drivers" type="human_pose_finder.py"/>
-    <node name="human_pose_filter" pkg="jetPR_drivers" type="human_pose_filter.py"/>
+    <node name="human_pose_finder" pkg="jetPR_drivers" type="human_pose_finder.py" output ="screen"/>
+    <node name="human_pose_filter" pkg="jetPR_drivers" type="human_pose_filter.py" output ="screen"/>
     <node pkg="image_view" type="image_view" name="image_view">
         <remap from="image" to="debug_image"/>
     </node>
