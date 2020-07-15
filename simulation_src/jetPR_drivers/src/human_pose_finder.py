@@ -28,9 +28,14 @@ class pose_getter:
             if det.results[0].id == 1 and det.results[0].score > 0.5 :
                 px = int((4.0/3.0)*det.bbox.center.x)
                 py = int((3.0/4.0)*det.bbox.center.y)
+                sx = int((4.0/3.0)*det.bbox.size_x)
+                sy = int((3.0/4.0)*det.bbox.size_y)
+                img = self.d_image[py - sy/2:py + sy/2,px - sx/2:px + sx/2]
+                res = np.where(img == np.nanmin(img))
+                px = px - sx/2 + res[0][0]
+                py = py - sy/2 + res[1][0]
                 pxbar = px - 320
                 pybar = 240 - py
-                #print(px,py)
                 try:
                     d = self.d_image[py][px]
                     theta = m.atan(pybar*m.tan(self.vfov/2)/(240))
